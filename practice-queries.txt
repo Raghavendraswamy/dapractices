@@ -1,0 +1,253 @@
+Create Employee Table (Sample Dataset)
+CREATE TABLE Employee
+(
+    EmpID INT,
+    EmpName VARCHAR(100),
+    Department VARCHAR(50),
+    Salary INT,
+    City VARCHAR(50)
+);
+
+Insert Sample Data
+INSERT INTO Employee VALUES
+(1,'Ravi','IT',60000,'Hyderabad'),
+(2,'Sita','HR',45000,'Chennai'),
+(3,'Arjun','IT',75000,'Bangalore'),
+(4,'Meena','Finance',80000,'Hyderabad'),
+(5,'Kiran','IT',75000,'Chennai'),
+(6,'John','Finance',90000,'Bangalore'),
+(7,'Anil','HR',50000,'Hyderabad');
+
+GROUP BY (Industry Usage)
+
+Used for summary reporting.
+
+Department-wise total salary
+SELECT Department, SUM(Salary) AS TotalSalary
+FROM Employee
+GROUP BY Department;
+
+Industry Use
+
+✔ Salary cost by department
+✔ Sales by region
+✔ Employee count per team
+
+ORDER BY (Sorting for Reports)
+SELECT EmpName, Salary
+FROM Employee
+ORDER BY Salary DESC;
+
+Industry Use
+
+✔ Top earners
+✔ Highest sales
+✔ Ranking reports
+
+GROUP BY with HAVING (Filter Aggregated Data)
+
+WHERE filters rows
+HAVING filters grouped results
+
+Departments with total salary > 150000
+SELECT Department, SUM(Salary) AS TotalSalary
+FROM Employee
+GROUP BY Department
+HAVING SUM(Salary) > 150000;
+
+Industry Use
+
+✔ High performing regions
+✔ Departments exceeding budget
+
+ Highest Salary (Industry Methods)
+Method 1 — MAX()
+SELECT MAX(Salary) AS HighestSalary
+FROM Employee;
+
+Method 2 — Employee with Highest Salary
+SELECT *
+FROM Employee
+WHERE Salary =
+(
+    SELECT MAX(Salary)
+    FROM Employee
+);
+
+
+Industry preferred because it returns employee details.
+
+ Second Highest Salary (Important Interview Question)
+Method 1 — Subquery (Most Common)
+SELECT MAX(Salary) AS SecondHighestSalary
+FROM Employee
+WHERE Salary <
+(
+    SELECT MAX(Salary)
+    FROM Employee
+);
+
+Method 2 — Using TOP (SQL Server Specific)
+SELECT TOP 1 Salary
+FROM
+(
+    SELECT DISTINCT TOP 2 Salary
+    FROM Employee
+    ORDER BY Salary DESC
+) AS A
+ORDER BY Salary;
+
+Highest Salary in Each Department (Industry Level)
+SELECT *
+FROM Employee E
+WHERE Salary =
+(
+    SELECT MAX(Salary)
+    FROM Employee
+    WHERE Department = E.Department
+);
+
+Industry Use
+
+✔ Top performer per team
+✔ Highest sales person per region
+
+ GROUP BY + ORDER BY + HAVING (Real Report Query)
+SELECT
+    Department,
+    COUNT(*) AS EmployeeCount,
+    AVG(Salary) AS AvgSalary
+FROM Employee
+GROUP BY Department
+HAVING AVG(Salary) > 50000
+ORDER BY AvgSalary DESC;
+
+
+CREATE TABLE Employee
+(
+    EmpID INT,
+    EmpName VARCHAR(100),
+    Department VARCHAR(50),
+    Salary INT,
+    City VARCHAR(50)
+);
+
+Sample Data
+INSERT INTO Employee VALUES
+(1,'Ravi','IT',60000,'Hyderabad'),
+(2,'Sita','HR',45000,'Chennai'),
+(3,'Arjun','IT',75000,'Bangalore'),
+(4,'Meena','Finance',80000,'Hyderabad'),
+(5,'Kiran','IT',75000,'Chennai'),
+(6,'John','Finance',90000,'Bangalore'),
+(7,'Anil','HR',50000,'Hyderabad');
+
+ Aggregation Queries (Core Reporting Skill)
+Total Salary of Company
+SELECT SUM(Salary) AS TotalSalary
+FROM Employee;
+
+Average Salary by Department
+SELECT Department, AVG(Salary) AS AvgSalary
+FROM Employee
+GROUP BY Department;
+
+Employee Count per City
+SELECT City, COUNT(*) AS EmployeeCount
+FROM Employee
+GROUP BY City;
+
+
+Filtering Grouped Data (HAVING Clause)
+Departments with Average Salary > 60000
+SELECT Department, AVG(Salary) AS AvgSalary
+FROM Employee
+GROUP BY Department
+HAVING AVG(Salary) > 60000;
+
+Cities with More Than 2 Employees
+SELECT City, COUNT(*) AS TotalEmployees
+FROM Employee
+GROUP BY City
+HAVING COUNT(*) > 2;
+
+
+Ranking Logic (Very Important in Industry)
+Rank Employees by Salary
+SELECT 
+    EmpName,
+    Department,
+    Salary,
+    RANK() OVER (ORDER BY Salary DESC) AS SalaryRank
+FROM Employee;
+
+Dense Rank (No Skipping Ranks)
+SELECT 
+    EmpName,
+    Salary,
+    DENSE_RANK() OVER (ORDER BY Salary DESC) AS DenseRank
+FROM Employee;
+
+Top 2 Employees per Department
+SELECT *
+FROM
+(
+    SELECT *,
+           ROW_NUMBER() OVER (PARTITION BY Department ORDER BY Salary DESC) AS RowNum
+    FROM Employee
+) AS A
+WHERE RowNum <= 2;
+
+
+
+ Subqueries (Industry Logic)
+Employee with Highest Salary
+SELECT *
+FROM Employee
+WHERE Salary = (SELECT MAX(Salary) FROM Employee);
+
+Employees Earning Above Company Average
+SELECT *
+FROM Employee
+WHERE Salary > (SELECT AVG(Salary) FROM Employee);
+
+Highest Salary per Department
+SELECT *
+FROM Employee E
+WHERE Salary =
+(
+    SELECT MAX(Salary)
+    FROM Employee
+    WHERE Department = E.Department
+);
+
+
+ Analytical Reporting Queries (Real Business Style)
+Salary Distribution Report
+SELECT 
+    Department,
+    COUNT(*) AS TotalEmployees,
+    SUM(Salary) AS TotalSalary,
+    AVG(Salary) AS AvgSalary,
+    MIN(Salary) AS MinSalary,
+    MAX(Salary) AS MaxSalary
+FROM Employee
+GROUP BY Department
+ORDER BY TotalSalary DESC;
+
+Salary Percentage Contribution
+SELECT 
+    EmpName,
+    Salary,
+    Salary * 100.0 / SUM(Salary) OVER() AS SalaryPercent
+FROM Employee;
+
+Running Total of Salaries
+SELECT 
+    EmpName,
+    Salary,
+    SUM(Salary) OVER (ORDER BY Salary DESC) AS RunningTotal
+FROM Employee;
+
+
+

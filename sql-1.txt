@@ -1,0 +1,62 @@
+create database retaildb;
+use retaildb;
+CREATE TABLE SalesData
+(
+    SaleID INT,
+    SaleDate DATE,
+    CustomerName VARCHAR(100),
+    ProductName VARCHAR(100),
+    Quantity INT,
+    Price DECIMAL(10,2),
+    City VARCHAR(50)
+
+);
+
+BULK INSERT SalesData
+FROM 'C:\sqldata\salesdata.csv'
+WITH
+(
+    FIRSTROW = 2,
+    FIELDTERMINATOR = ',',
+    ROWTERMINATOR = '\n',
+    TABLOCK
+);
+
+select * from SalesData;
+
+
+
+BULK INSERT SalesData
+FROM 'C:\sqldata\SalesData1.txt'
+WITH
+(
+    FIELDTERMINATOR = ',',
+    ROWTERMINATOR = '\n'
+);
+
+select * from SalesData;
+
+
+BULK INSERT SalesData
+FROM 'C:\sqldata\SalesData2.txt'
+WITH
+(
+    FIELDTERMINATOR = '|',
+    ROWTERMINATOR = '\n'
+);
+
+select * from SalesData;
+
+
+DELETE FROM SalesData;
+
+BULK INSERT SalesData
+FROM 'C:\sqldata\SalesData1.txt'
+WITH
+(
+    FIELDTERMINATOR = ',',
+    ROWTERMINATOR = '\n'
+);
+
+select * from SalesData;
+
