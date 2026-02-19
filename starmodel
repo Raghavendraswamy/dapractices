@@ -1,0 +1,229 @@
+create database datamodel;
+use  datamodel;
+CREATE TABLE Employees (
+    EmployeeID INT PRIMARY KEY,
+    EmployeeName VARCHAR(50),
+    DepartmentID INT,
+    Salary INT
+);
+CREATE TABLE Departments (
+    DepartmentID INT PRIMARY KEY,
+    DepartmentName VARCHAR(50)
+);
+delete from Employees;
+INSERT INTO Employees VALUES
+(1,'Ravi',10,50000),
+(2,'Sneha',20,60000),
+(3,'Amit',30,45000),
+(4,'Kiran',NULL,40000);
+
+INSERT INTO Departments VALUES
+(10,'IT'),
+(20,'HR'),
+(40,'Finance');
+
+SELECT 
+    e.EmployeeName,
+    d.DepartmentName
+FROM Employees e
+INNER JOIN Departments d
+ON e.DepartmentID = d.DepartmentID;
+
+
+
+SELECT 
+    e.EmployeeName,
+    d.DepartmentName
+FROM Employees e
+LEFT JOIN Departments d
+ON e.DepartmentID = d.DepartmentID;
+
+
+SELECT 
+    e.EmployeeName,
+    d.DepartmentName
+FROM Employees e
+RIGHT JOIN Departments d
+ON e.DepartmentID = d.DepartmentID;
+
+
+SELECT 
+    e.EmployeeName,
+    d.DepartmentName
+FROM Employees e
+FULL OUTER JOIN Departments d
+ON e.DepartmentID = d.DepartmentID;
+
+
+
+-- working with data modeling star schema 
+
+CREATE TABLE Customers (
+    CustomerID INT PRIMARY KEY,
+    CustomerName VARCHAR(100),
+    City VARCHAR(50),
+    Region VARCHAR(50)
+);
+
+CREATE TABLE Products (
+    ProductID INT PRIMARY KEY,
+    ProductName VARCHAR(100),
+    Category VARCHAR(50),
+    Price DECIMAL(10,2)
+);
+
+
+CREATE TABLE Orders (
+    OrderID INT PRIMARY KEY,
+    OrderDate DATE,
+    CustomerID INT,
+    FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID)
+);
+
+
+
+
+CREATE TABLE OrderDetails (
+    OrderDetailID INT PRIMARY KEY,
+    OrderID INT,
+    ProductID INT,
+    Quantity INT,
+    FOREIGN KEY (OrderID) REFERENCES Orders(OrderID),
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
+);
+
+
+
+
+INSERT INTO Customers VALUES
+(1,'Ravi','Delhi','North'),
+(2,'Sneha','Mumbai','West'),
+(3,'Amit','Chennai','South');
+
+
+
+INSERT INTO Products VALUES
+(101,'Laptop','Electronics',50000),
+(102,'Mobile','Electronics',20000),
+(103,'Chair','Furniture',5000);
+
+
+INSERT INTO Orders VALUES
+(1001,'2025-01-10',1),
+(1002,'2025-01-15',2),
+(1003,'2025-02-05',1);
+
+INSERT INTO OrderDetails VALUES
+(1,1001,101,1),
+(2,1001,103,2),
+(3,1002,102,1),
+(4,1003,101,1);
+
+
+
+SELECT 
+    c.Region,
+    p.Category,
+    SUM(od.Quantity * p.Price) AS TotalSales
+FROM Orders o
+JOIN Customers c ON o.CustomerID = c.CustomerID
+JOIN OrderDetails od ON o.OrderID = od.OrderID
+JOIN Products p ON od.ProductID = p.ProductID
+GROUP BY c.Region, p.Category;
+
+
+
+
+-- convert to star schema 
+-- FactSales (Fact Table)
+-- DimCustomer
+-- DimProduct
+-- DimDate
+
+
+CREATE TABLE DimCustomer (
+    CustomerKey INT IDENTITY PRIMARY KEY,
+    CustomerID INT,
+    CustomerName VARCHAR(100),
+    City VARCHAR(50),
+    Region VARCHAR(50)
+);
+
+
+
+CREATE TABLE DimProduct (
+    ProductKey INT IDENTITY PRIMARY KEY,
+    ProductID INT,
+    ProductName VARCHAR(100),
+    Category VARCHAR(50)
+);
+
+
+CREATE TABLE DimDate (
+    DateKey INT PRIMARY KEY,
+    FullDate DATE,
+    Month INT,
+    MonthName VARCHAR(20),
+    Year INT
+);
+
+
+CREATE TABLE FactSales (
+    SalesKey INT IDENTITY PRIMARY KEY,
+    DateKey INT,
+    CustomerKey INT,
+    ProductKey INT,
+    Quantity INT,
+    SalesAmount DECIMAL(18,2),
+    FOREIGN KEY (CustomerKey) REFERENCES DimCustomer(CustomerKey),
+    FOREIGN KEY (ProductKey) REFERENCES DimProduct(ProductKey),
+    FOREIGN KEY (DateKey) REFERENCES DimDate(DateKey)
+);
+
+
+-- load data
+
+INSERT INTO DimCustomer (CustomerID, CustomerName, City, Region)
+SELECT CustomerID, CustomerName, City, Region
+FROM Customers;
+
+INSERT INTO DimProduct (ProductID, ProductName, Category)
+SELECT ProductID, ProductName, Category
+FROM Products;
+
+
+INSERT INTO DimDate VALUES
+(20250110,'2025-01-10',1,'January',2025),
+(20250115,'2025-01-15',1,'January',2025),
+(20250205,'2025-02-05',2,'February',2025);
+
+
+
+INSERT INTO FactSales (DateKey, CustomerKey, ProductKey, Quantity, SalesAmount)
+SELECT 
+    CONVERT(INT, FORMAT(o.OrderDate,'yyyyMMdd')) AS DateKey,
+    dc.CustomerKey,
+    dp.ProductKey,
+    od.Quantity,
+    od.Quantity * p.Price AS SalesAmount
+FROM Orders o
+JOIN OrderDetails od ON o.OrderID = od.OrderID
+JOIN Products p ON od.ProductID = p.ProductID
+JOIN DimCustomer dc ON o.CustomerID = dc.CustomerID
+JOIN DimProduct dp ON p.ProductID = dp.ProductID;
+
+
+SELECT 
+    dc.Region,
+    SUM(fs.SalesAmount) AS TotalSales
+FROM FactSales fs
+JOIN DimCustomer dc ON fs.CustomerKey = dc.CustomerKey
+GROUP BY dc.Region;
+
+
+SELECT 
+    d.MonthName,
+    SUM(fs.SalesAmount) AS TotalSales
+FROM FactSales fs
+JOIN DimDate d ON fs.DateKey = d.DateKey
+GROUP BY d.MonthName;
