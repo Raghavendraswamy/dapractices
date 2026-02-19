@@ -1,0 +1,45 @@
+STEP 1: Create Sample Tables
+ Create Departments Table
+CREATE TABLE Departments (
+    DepartmentID INT PRIMARY KEY,
+    DepartmentName VARCHAR(50)
+);
+
+ Create Employees Table
+CREATE TABLE Employees (
+    EmployeeID INT PRIMARY KEY,
+    EmployeeName VARCHAR(50),
+    DepartmentID INT,
+    Salary INT,
+    HireDate DATE,
+    FOREIGN KEY (DepartmentID) REFERENCES Departments(DepartmentID)
+);
+
+STEP 2: Insert Sample Data
+Insert Departments
+INSERT INTO Departments VALUES
+(1, 'IT'),
+(2, 'HR'),
+(3, 'Finance'),
+(4, 'Sales');
+
+Insert Employees
+INSERT INTO Employees VALUES
+(101, 'Ravi', 1, 60000, '2022-01-10'),
+(102, 'Anita', 1, 75000, '2021-03-15'),
+(103, 'Kiran', 2, 50000, '2020-07-20'),
+(104, 'Meena', 3, 90000, '2019-02-10'),
+(105, 'John', 4, 45000, '2023-05-01'),
+(106, 'Sara', 4, 55000, '2021-11-11'),
+(107, 'Arjun', 3, 80000, '2022-06-25'),
+(108, 'Divya', 2, 48000, '2023-01-30');
+
+STEP 3: Basic INNER JOIN
+
+
+
+SELECT e.EmployeeName, d.DepartmentName, e.Salary
+FROM Employees e
+INNER JOIN Departments d
+ON e.DepartmentID = d.DepartmentID;
+
