@@ -1,0 +1,289 @@
+
+GET SAMPLE SUPERSTORES ORDERS DATA AND PERFORM ALL THESE TRANSFORMATIONS
+1. Change Data Types
+Dates are text (08-11-2018), Sales/Profit may import as text.
+
+
+Order Date → Date
+
+Ship Date → Date
+
+Sales → Decimal
+
+Quantity → Whole Number
+
+Discount → Decimal
+
+Profit → Decimal
+
+Transform → Data Type → Date / Decimal Number
+
+🔹 2. Rename Columns (Standard Naming Convention)
+
+Column names have spaces and slashes (Country/Region).
+
+
+Order ID → OrderID
+
+Order Date → OrderDate
+
+Country/Region → Country
+
+Sub-Category → SubCategory
+
+
+Right click column → Rename
+
+ 3. Remove Duplicate Rows
+
+CA-2018-152156 appears multiple times (valid at line level).
+But if checking Order-level table → remove duplicates by OrderID.
+
+
+Home → Remove Rows → Remove Duplicates
+Select OrderID only
+
+ 4. Trim & Clean Text
+
+Some text fields may contain extra spaces.
+
+
+
+Customer Name
+City
+State
+
+
+
+Transform → Format → Trim
+Transform → Format → Clean
+
+ 5. Replace Values (Standardization)
+
+United States could appear as:
+
+US
+
+USA
+
+United States
+
+replace:
+
+USA → United States
+
+
+Transform → Replace Values
+
+6. Extract Year from Order Date
+ Create OrderYear column
+
+
+Add Column → Date → Year → Year
+
+Example:
+08-11-2018 → 2018
+
+ 7. Extract Month Name
+ Create MonthName
+
+
+Add Column → Date → Month → Name of Month
+
+Example:
+08-11-2018 → November
+
+  Create Shipping Days Column
+ Business KPI:
+
+Delivery Time = Ship Date – Order Date
+
+
+
+Add Column → Custom Column
+
+Duration.Days([ShipDate] - [OrderDate])
+
+Example:
+08-11-2018 → 11-11-2018
+= 3 days
+
+ 9. Create Profit Margin %
+ KPI:
+
+Profit Margin = Profit / Sales
+
+
+
+Add Column → Custom Column
+
+[Profit] / [Sales]
+
+Format as Percentage
+
+ 10. Create Discount Category
+ Categorize Discount
+
+Add Conditional Column:
+
+Condition	Output
+Discount = 0	No Discount
+Discount <= 0.2	Low
+Discount <= 0.5	Medium
+Else	High
+ 11. Split Product ID
+
+Example:
+FUR-BO-10001798
+
+Split by delimiter "-"
+
+Result:
+
+CategoryCode (FUR)
+
+SubCategoryCode (BO)
+
+ProductNumber (10001798)
+
+ Transform → Split Column
+
+ 12. Extract First Name from Customer Name
+
+Example:
+Claire Gute
+
+Split by Space
+Take First Column
+
+Result:
+Claire
+
+ 13. Create Order Type Column
+
+Based on Order ID prefix:
+
+CA-2018-152156
+US-2017-108966
+
+Add Custom Column:
+
+Text.Start([OrderID],2)
+
+Result:
+CA
+US
+
+ 14. Group By (Region Level Sales)
+ Business Aggregation
+
+Group by:
+Region
+
+Aggregate:
+Sum of Sales
+Sum of Profit
+Count of Orders
+
+ Transform → Group By
+
+ 15. Create High Loss Flag
+
+Condition:
+
+If Profit < 0 → "Loss"
+Else → "Profit"
+
+Conditional Column
+
+Example:
+-1665.0522 → Loss
+
+ 16. Remove Columns Not Required
+
+Example:
+If building Product dimension:
+Remove:
+Order Date
+Customer Name
+Ship Mode
+
+ Right Click → Remove
+
+ 17. Change Text Case
+
+Standardize State to Proper Case
+
+Transform → Format → Capitalize Each Word
+
+Example:
+california → California
+
+ 18. Extract Postal Code as Text
+
+Postal codes like:
+90036
+
+Change to Text to preserve leading zeros (important in US data).
+
+Transform → Data Type → Text
+
+ 19. Create Sales Bucket
+
+Conditional Column:
+
+Sales Range	Bucket
+<100	Small
+100–500	Medium
+>500	Large
+
+Example:
+731.94 → Large
+
+ 20. Create Dimension & Fact Tables (Industry Practice)
+ Split into:
+
+FactSales
+DimCustomer
+DimProduct
+DimRegion
+DimDate
+
+Example:
+DimCustomer
+
+CustomerID
+
+Customer Name
+
+Segment
+
+Remove duplicates
+
+DimProduct
+
+ProductID
+
+Category
+
+SubCategory
+
+Product Name
+
+Remove duplicates
+
+FactSales
+
+OrderID
+
+ProductID
+
+CustomerID
+
+Sales
+
+Profit
+
+Quantity
+
+Discount
