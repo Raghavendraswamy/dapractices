@@ -1,0 +1,73 @@
+Assignment-1
+
+Top 10 Customers by Discount Given
+
+States:
+
+California
+
+Texas
+
+Florida
+
+=========================================
+
+ASSIGNMENT 2: Delivery Delay Impact on Profit
+Business Question
+
+Does delayed shipping reduce profitability?
+
+ Step 1: Create Delivery Days Column
+Delivery Days =
+DATEDIFF(Orders[Order Date], Orders[Ship Date], DAY)
+ Step 2: Create Delay Category
+Delivery Status =
+IF(Orders[Delivery Days] > 5, "Delayed", "On Time")
+ Step 3: Create Profit Measure
+Profit by Status = SUM(Orders[Profit])
+ Step 4: Visual
+
+======================================================
+
+ASSIGNMENT 3: Discount Abuse Detection
+
+Which customers receive high discount but give low profit?
+
+Step 1: Measures
+Avg Discount = AVERAGE(Orders[Discount])
+Profit Margin =
+DIVIDE([Total Profit], [Total Sales])
+Step 2: Risk Condition
+Discount Risk =
+IF(
+    [Avg Discount] > 0.3 &&
+    [Profit Margin] < 0.1,
+    "High Risk",
+    "Safe"
+)
+ Step 3: Visual
+
+Table:
+
+Customer Name
+
+Avg Discount
+
+Profit Margin
+
+Risk
+============================================
+
+ Ship Mode Profitability Analysis
+
+Which ship mode is most profitable?
+
+Visual:
+
+Ship Mode
+
+Total Sales
+
+Total Profit
+
+Profit Margin
