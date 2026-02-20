@@ -1,0 +1,83 @@
+Aggregation Functions
+ Total Sales
+Total Sales = SUM(Orders[Sales])
+
+ Total Profit = SUM(Orders[Profit])
+ 
+Total Orders = DISTINCTCOUNT(Orders[Order ID])
+Average Order Value =
+DIVIDE(
+    [Total Sales],
+    [Total Orders]
+)
+
+
+ Profit Status =
+IF(
+    Orders[Profit] > 0,
+    "Profit",
+    "Loss"
+)
+
+
+Segment Type =
+SWITCH(
+    Orders[Segment],
+    "Consumer", "Retail",
+    "Corporate", "Business",
+    "Home Office", "Small Office",
+    "Other"
+)
+
+High Discount Flag =
+IF(
+    Orders[Discount] > 0.3,
+    "High Discount",
+    "Normal"
+)
+
+
+Selected Region =
+SELECTEDVALUE(
+    Orders[Region],
+    "All Regions"
+)
+
+
+
+ Sales for West Region (Ignore slicer)
+West Sales =
+CALCULATE(
+    [Total Sales],
+    Orders[Region] = "West"
+)
+
+Top 2 Products =
+TOPN(
+    2,
+    SUMMARIZE(
+        Orders,
+        Orders[Product Name],
+        "Product Sales", [Total Sales]
+    ),
+    [Product Sales],
+    DESC
+)
+
+
+🔹 Year-to-Date Sales
+
+YTD Sales =
+TOTALYTD(
+    [Total Sales],
+    'Date'[Date]
+)
+
+🔹 Sales Last Year
+Sales LY =
+CALCULATE(
+    [Total Sales],
+    SAMEPERIODLASTYEAR('Date'[Date])
+)
+
+
