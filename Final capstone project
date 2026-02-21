@@ -1,0 +1,346 @@
+CAPSTONE PROJECT
+🏬 Retail Sales Analytics – Star Schema Modeling Project
+📌 Business Scenario
+A retail company wants to:
+Monitor sales & profit performance
+Identify loss-making products
+Analyze customer behavior
+Track shipping efficiency
+Measure regional performance
+Build executive dashboards
+You are assigned to design a complete analytical solution using:
+Excel (Power Query + Power Pivot)
+SQL (ETL + Joins + Reporting)
+Power BI (ETL + Modeling + DAX + Dashboard)
+Python (inside Power BI)
+
+📂 RAW DATA COLUMNS PROVIDED
+Row ID
+Order ID
+Order Date
+Ship Date
+Ship Mode
+Customer ID
+Customer Name
+Segment
+Country/Region
+City
+State
+Postal Code
+Region
+Product ID
+Category
+Sub-Category
+Product Name
+Sales
+Quantity
+Discount
+Profit
+🧱 STEP 1: IDENTIFY FACT & DIMENSION TABLES
+🔵 FACT TABLE
+📌 Fact_Sales (FactOrders)
+Fact tables contain numeric measures and foreign keys.
+Fact_Sales Columns:
+Row ID (optional – can remove)
+Order ID
+Order Date (FK → Dim_Date)
+Ship Date (FK → Dim_Date)
+Customer ID (FK → Dim_Customer)
+Product ID (FK → Dim_Product)
+Ship Mode ID (FK → Dim_ShipMode)
+Geography ID (FK → Dim_Geography)
+Sales
+Quantity
+Discount
+Profit
+
+Measures in Fact Table:
+Sales
+Quantity
+Discount
+Profit
+
+These are additive numeric columns.
+
+🟢 DIMENSION TABLES
+1️⃣ Dim_Customer
+
+Columns:
+Customer ID (Primary Key)
+Customer Name
+Segment
+
+
+)
+2️⃣ Dim_Product
+
+Columns:
+
+Product ID (Primary Key)
+Category
+Sub-Category
+Product Name
+
+
+
+
+
+Used in drill-down (Category → Sub-category → Product)
+
+3️⃣ Dim_Geography
+
+Columns:
+Geography ID (New Key)
+Country/Region
+State
+City
+Postal Code
+Region
+
+Why?
+
+Location hierarchy
+Regional analysis
+Map visualization
+
+4️⃣ Dim_ShipMode
+
+Columns:
+
+Ship Mode ID
+Ship Mode
+
+Why?
+Shipping analysis
+Operational KPI
+
+5️⃣ Dim_Date (Calendar Table)
+
+Must create separate date table.
+
+Columns:
+
+Date (Primary Key)
+Year
+Quarter
+Month Number
+Month Name
+Week Number
+Year-Month
+Fiscal Year (optional)
+
+Why?
+
+Time intelligence
+YTD, YoY, Rolling 12M
+Trend analysis
+
+⭐ FINAL STAR SCHEMA STRUCTURE
+                Dim_Customer
+                      |
+                Dim_Product
+                      |
+Dim_Date ---- Fact_Sales ---- Dim_Geography
+                      |
+                Dim_ShipMode
+
+Fact_Sales in center
+
+All dimensions connected one-to-many
+
+Single direction filtering
+
+🎯 COMPLETE CAPSTONE PROJECT REQUIREMENTS
+🔹 PART 1 – EXCEL PROJECT
+Students Must:
+
+✔ Load raw data
+✔ Perform ETL in Power Query
+✔ Split into fact & dimension tables
+✔ Load to Power Pivot
+✔ Create relationships
+✔ Build DAX measures
+✔ Create interactive dashboard
+
+🔹 PART 2 – SQL PROJECT
+Students Must:
+
+Create normalized tables:
+
+Fact_Sales
+
+Dim_Customer
+
+Dim_Product
+
+Dim_Geography
+
+Dim_ShipMode
+
+Dim_Date
+
+Insert cleaned data
+
+Create joins
+
+Write reporting queries
+
+Create views for BI tool consumption
+
+🔹 PART 3 – POWER BI PROJECT
+
+Students must:
+
+✔ Load raw data
+✔ Create dimension tables
+✔ Remove duplicate attributes
+✔ Create Star Schema
+✔ Build DAX KPIs
+✔ Create 3-page dashboard
+✔ Use Python visual
+
+📊 REQUIRED KPIs
+🔹 SALES KPIs
+
+Total Sales
+
+Total Orders
+
+Sales by Region
+
+Sales by Category
+
+Sales by Segment
+
+Monthly Sales Trend
+
+Sales YTD
+
+YoY Growth %
+
+Rolling 12 Month Sales
+
+🔹 PROFIT KPIs
+
+Total Profit
+
+Profit Margin %
+
+Profit by Region
+
+Profit by Category
+
+Profit by Segment
+
+Top 10 Profitable Products
+
+Bottom 10 Loss Products
+
+🔹 CUSTOMER KPIs
+
+Total Customers
+
+Repeat Customers
+
+Average Order Value
+
+Segment Contribution %
+
+🔹 OPERATIONAL KPIs
+
+Average Shipping Days
+
+Shipping Delay Trend
+
+Sales by Ship Mode
+
+Profit by Ship Mode
+
+🔹 DISCOUNT ANALYSIS KPIs
+
+Average Discount
+
+Sales by Discount Band
+
+Profit by Discount Band
+
+Discount vs Profit Correlation
+
+📈 REQUIRED DASHBOARD STRUCTURE
+Page 1 – Executive Overview
+
+KPI Cards
+
+Monthly Trend
+
+Region Map
+
+Category Performance
+
+Page 2 – Profit & Discount Analysis
+
+Loss Products
+
+Discount Impact Chart
+
+Segment Profit Comparison
+
+Page 3 – Customer & Operations
+
+Customer Segmentation
+
+Shipping Delay Analysis
+
+Top Customers
+
+🧠 BUSINESS QUESTIONS STUDENTS MUST ANSWER
+
+Why is profit lower in some regions?
+
+Which products are causing losses?
+
+Is discount strategy effective?
+
+Which segment generates highest margin?
+
+Is shipping delay impacting profitability?
+
+Which category should receive investment?
+
+Are certain ship modes less profitable?
+
+What seasonal patterns exist?
+
+Should any sub-categories be discontinued?
+
+What strategic recommendations can be given?
+
+🏆 EXPECTED FINAL DELIVERABLES
+
+Students must submit:
+
+Cleaned dataset
+
+SQL scripts
+
+Excel Dashboard
+
+Power BI file (.pbix)
+
+2–3 page Business Insight Report
+
+5-slide Presentation
+
+🎓 WHAT THIS PROJECT TRAINS
+
+After completing this capstone, students will understand:
+
+✔ Fact vs Dimension modeling
+✔ Star Schema design
+✔ ETL process
+✔ SQL joins & reporting
+✔ Advanced DAX
+✔ Time Intelligence
+✔ Ranking functions
+✔ Dashboard storytelling
+✔ Business interpretation
