@@ -1,0 +1,244 @@
+CAPSTONE PROJECT FOR DATA ANALYST STUDENTS
+🏬 Retail Sales & Profitability Analytics System
+📌 Business Scenario
+
+A growing multi-region retail company operates across different customer segments and product categories.
+
+Over the past 2 years:
+
+Sales revenue has increased
+
+Profit margins are inconsistent
+
+Heavy discounting is common
+
+Some regions are underperforming
+
+Shipping delays are increasing
+
+Management reports are manually prepared in Excel
+
+The leadership team wants a:
+
+📊 Data-Driven Performance Monitoring & Decision Support System
+
+You are assigned as a Data Analyst to build a complete analytical solution.
+
+🎯 Project Objective
+
+Build an end-to-end analytics solution that:
+
+Cleans and transforms raw data
+
+Designs a proper data model
+
+Calculates business KPIs
+
+Performs SQL reporting
+
+Creates executive dashboards
+
+Uses DAX for advanced analytics
+
+Uses Python for additional insights
+
+📂 Data Provided
+Orders Table
+
+Row ID
+
+Order ID
+
+Order Date
+
+Ship Date
+
+Ship Mode
+
+Customer ID
+
+Product ID
+
+Sales
+
+Quantity
+
+Discount
+
+Profit
+
+Customers Table
+
+Customer ID
+
+Customer Name
+
+Segment
+
+Region
+
+Country
+
+Products Table
+
+Product ID
+
+Category
+
+Sub-Category
+
+Product Name
+
+🔹 PART 1 – EXCEL REQUIREMENTS
+
+Students must:
+
+Perform ETL using Power Query
+
+Build data model using Power Pivot
+
+Create calculated measures using DAX
+
+Design interactive dashboard
+
+🔹 PART 2 – SQL REQUIREMENTS
+
+Students must:
+
+Create tables
+
+Perform data cleaning
+
+Use joins
+
+Write reporting queries
+
+Create analytical views
+
+🔹 PART 3 – POWER BI REQUIREMENTS
+
+Students must:
+
+Perform ETL in Power Query
+
+Design star schema model
+
+Create calculated columns
+
+Create DAX measures
+
+Build 3-page interactive dashboard
+
+Use Python visual
+
+📊 REQUIRED KPIs (Students Must Build)
+🔹 Sales KPIs
+
+Total Sales
+
+Sales by Month
+
+Sales by Region
+
+Sales by Category
+
+Sales Growth (YoY %)
+
+Rolling 12 Month Sales
+
+🔹 Profitability KPIs
+
+Total Profit
+
+Profit Margin %
+
+Profit by Category
+
+Profit by Region
+
+Profit by Segment
+
+Top 10 Profitable Products
+
+Bottom 10 Loss-Making Products
+
+🔹 Discount Analysis KPIs
+
+Average Discount %
+
+Sales by Discount Band
+
+Profit by Discount Band
+
+Impact of Discount on Profit
+
+🔹 Customer KPIs
+
+Total Customers
+
+Repeat Customers
+
+Sales by Segment
+
+Profit by Segment
+
+Average Order Value
+
+🔹 Operational KPIs
+
+Average Shipping Days
+
+Shipping Delay Trend
+
+Sales by Ship Mode
+
+Profit by Ship Mode
+
+📈 Required Dashboard Pages
+1️⃣ Executive Summary
+
+KPI Cards
+
+Monthly Trend
+
+Region-wise Sales
+
+Category Performance
+
+2️⃣ Profit & Discount Analysis
+
+Loss-Making Products
+
+Discount Impact Visualization
+
+Segment Profit Comparison
+
+3️⃣ Customer & Operations
+
+Customer Segmentation
+
+Shipping Delay Analysis
+
+Top Customers
+
+🔍 Business Questions Students Must Answer
+
+Why is profit not increasing proportionally with sales?
+
+Which products are consistently generating losses?
+
+Are higher discounts improving or hurting profitability?
+
+Which region contributes highest profit margin?
+
+Which customer segment is most valuable?
+
+Is shipping delay impacting profit?
+
+What are seasonal sales patterns?
+
+Which category should management focus on?
+
+Should any products be discontinued?
+
+What strategic recommendations can be given?
