@@ -1,0 +1,279 @@
+Understand the Goal of Data Modeling
+
+Instead of keeping everything in one big table, we split it into:
+
+Fact Table → Transaction data (Sales)
+
+Dimension Tables → descriptive information
+
+This improves:
+
+Performance
+
+Data analysis
+
+DAX calculations
+
+2️ Identify Fact and Dimension Columns
+FACT TABLE (Sales Transactions)
+
+This table contains numeric measures.
+
+FactSales
+
+OrderID	OrderDate	ShipDate	CustomerID	ProductID	Sales	Quantity	Discount	Profit
+DIMENSION TABLES
+1️⃣ DimCustomer
+CustomerID	CustomerName	Segment
+2️⃣ DimProduct
+ProductID	ProductName	Category	SubCategory
+3️⃣ DimLocation
+PostalCode	City	State	Country	Region
+4️⃣ DimShipMode
+ShipMode
+5️⃣ DimDate (Calendar Table)
+Date	Year	Quarter	Month	MonthName
+
+Used for:
+
+Order Date analysis
+
+Time intelligence
+
+3️⃣ Final Star Schema
+
+Your model should look like this:
+
+             DimCustomer
+                 |
+                 |
+DimProduct --- FactSales --- DimDate
+                 |
+                 |
+             DimLocation
+                 |
+             DimShipMode
+
+Fact table in center.
+
+4️⃣ Step-by-Step Implementation in Excel Power Pivot
+Step 1 — Load Data to Excel Table
+
+Select dataset → Press
+
+CTRL + T
+
+Name it:
+
+SalesRaw
+Step 2 — Load to Power Pivot
+
+Excel Ribbon
+
+Power Pivot
+ → Add to Data Model
+5️⃣ Create Dimension Tables
+
+Use Remove Duplicates approach
+
+Create Customer Table
+
+Copy columns:
+
+Customer ID
+Customer Name
+Segment
+
+Paste into new sheet.
+
+Remove duplicates by:
+
+Data → Remove Duplicates
+
+Name table
+
+DimCustomer
+
+Add to Data Model.
+
+Create Product Table
+
+Columns:
+
+Product ID
+Product Name
+Category
+Sub-Category
+
+Remove duplicates.
+
+Table name:
+
+DimProduct
+
+Add to Data Model.
+
+Create Location Table
+
+Columns:
+
+Postal Code
+City
+State
+Country/Region
+Region
+
+Remove duplicates.
+
+Table name:
+
+DimLocation
+Create Ship Mode Table
+
+Column:
+
+Ship Mode
+
+Remove duplicates.
+
+Table name:
+
+DimShipMode
+6️⃣ Create Date Table (Important)
+
+In Power Pivot window
+
+Design → Date Table → New
+
+Or create manually in Excel.
+
+Example:
+
+Date	Year	Month	MonthName	Quarter
+01-01-2025	2025	1	Jan	Q1
+7️⃣ Create Relationships
+
+Open Power Pivot → Diagram View
+
+Create relationships:
+
+From	To
+FactSales.CustomerID	DimCustomer.CustomerID
+FactSales.ProductID	DimProduct.ProductID
+FactSales.PostalCode	DimLocation.PostalCode
+FactSales.ShipMode	DimShipMode.ShipMode
+FactSales.OrderDate	DimDate.Date
+8️⃣ Create DAX Measures
+
+In FactSales table.
+
+Total Sales
+Total Sales :=
+SUM(FactSales[Sales])
+Total Profit
+Total Profit :=
+SUM(FactSales[Profit])
+Total Quantity
+Total Quantity :=
+SUM(FactSales[Quantity])
+Profit Margin
+Profit Margin :=
+DIVIDE([Total Profit],[Total Sales])
+Average Discount
+Avg Discount :=
+AVERAGE(FactSales[Discount])
+9️⃣ Data Analysis Ideas
+
+Now create PivotTables from Data Model.
+
+Insert → Pivot Table → Use Data Model.
+
+Analysis 1 — Region Sales
+
+Rows
+
+Region
+
+Values
+
+Total Sales
+Total Profit
+Analysis 2 — Category Performance
+
+Rows
+
+Category
+Sub Category
+
+Values
+
+Total Sales
+Profit
+Analysis 3 — Monthly Sales
+
+Rows
+
+Year
+Month
+
+Values
+
+Total Sales
+Analysis 4 — Customer Segment Analysis
+
+Rows
+
+Segment
+
+Values
+
+Total Sales
+Profit
+Analysis 5 — Ship Mode Performance
+
+Rows
+
+Ship Mode
+
+Values
+
+Sales
+Profit
+🔟 Advanced Power Pivot Calculations
+Year To Date Sales
+YTD Sales :=
+TOTALYTD(
+    [Total Sales],
+    DimDate[Date]
+)
+Previous Year Sales
+PY Sales :=
+CALCULATE(
+    [Total Sales],
+    SAMEPERIODLASTYEAR(DimDate[Date])
+)
+1️⃣1️⃣ Dashboard Ideas
+
+Create dashboard with:
+
+Charts:
+
+Sales by Category
+
+Sales by Region
+
+Monthly Sales Trend
+
+Profit by Segment
+
+Top 10 Products
+
+Slicers:
+
+Year
+
+Region
+
+Segment
+
+Category
