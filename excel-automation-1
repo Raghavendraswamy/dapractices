@@ -1,0 +1,39 @@
+PHASE 3 – BUSINESS AUTOMATION 
+
+Goal: Think like an analyst.
+
+ Sample Sales Data
+
+Sheet Name: RawData
+
+OrderID	Region	Sales
+1001	South	5000
+1002	North	7000
+1003	West	4000
+1004	South	6000
+
+🔹  Calculate Total Sales
+Sub TotalSales()
+
+    Dim lastRow As Long
+    lastRow = Cells(Rows.Count, 1).End(xlUp).Row
+    
+    Range("E1").Value = "Total"
+    Range("E2").Value = Application.WorksheetFunction.Sum(Range("C2:C" & lastRow))
+
+End Sub
+🔹 Practice 8: Remove Duplicates
+Sub RemoveDup()
+
+    Dim lastRow As Long
+    lastRow = Cells(Rows.Count, 1).End(xlUp).Row
+    
+    Range("A1:C" & lastRow).RemoveDuplicates Columns:=1, Header:=xlYes
+
+End Sub
+🔹 Practice 9: Sort Data
+Sub SortSales()
+
+    Range("A1:C5").Sort Key1:=Range("C2"), Order1:=xlDescending, Header:=xlYes
+
+End Sub
