@@ -1,0 +1,3 @@
+1,2025-01-10,Ravi,Laptop,1,55000,Hyderabad-1
+2,2025-01-11,Sita,Mouse,2,500,Chennai-1
+3,2025-01-12,Arjun,Keyboard,1,1500,Bangalore-1
