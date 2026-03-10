@@ -1,0 +1,241 @@
+Titanic Data Dashboard (Looker Studio Project)
+Objective
+
+Analyze passenger data to understand:
+
+Survival rate
+
+Gender survival comparison
+
+Passenger class distribution
+
+Age group survival
+
+Fare distribution
+
+Step 1: Prepare Titanic Dataset
+
+Create a Google Sheet with sample columns like this:
+
+PassengerId	Survived	Pclass	Name	Sex	Age	Fare	Embarked
+1	0	3	Allen	male	22	7.25	S
+2	1	1	Cumings	female	38	71.28	C
+3	1	3	Heikkinen	female	26	7.92	S
+4	1	1	Futrelle	female	35	53.10	S
+5	0	3	Allen	male	35	8.05	S
+
+Important fields:
+
+Survived (0 = No, 1 = Yes)
+Pclass (1,2,3)
+Sex
+Age
+Fare
+Embarked
+
+Upload to Google Sheets.
+
+Step 2: Open Looker Studio
+
+Open lookerstudio.google.com
+
+Click Create
+
+Select Report
+
+Step 3: Connect Dataset
+
+Steps:
+
+Click Add Data
+
+Choose Google Sheets
+
+Select Titanic spreadsheet
+
+Select worksheet
+
+Click Add to Report
+
+Step 4: Verify Data Types
+
+Left panel → Data fields
+
+Ensure correct types:
+
+Field	Type
+PassengerId	Number
+Survived	Number
+Pclass	Number
+Sex	Text
+Age	Number
+Fare	Number
+Embarked	Text
+Step 5: Create Calculated Fields
+
+Go to:
+
+Resource → Manage added data source → Edit → Add Field
+
+Survival Status
+CASE
+WHEN Survived = 1 THEN "Survived"
+ELSE "Not Survived"
+END
+
+Name:
+
+Survival Status
+Passenger Class Label
+CASE
+WHEN Pclass = 1 THEN "First Class"
+WHEN Pclass = 2 THEN "Second Class"
+ELSE "Third Class"
+END
+Step 6: Create KPI Scorecards
+
+Menu:
+
+Insert → Scorecard
+
+Add KPIs.
+
+Total Passengers
+
+Metric
+
+COUNT(PassengerId)
+Total Survivors
+
+Metric
+
+SUM(Survived)
+Average Age
+
+Metric
+
+AVG(Age)
+Average Fare
+
+Metric
+
+AVG(Fare)
+Step 7: Survival by Gender Chart
+
+Menu:
+
+Insert → Pie Chart
+
+Dimension
+
+Sex
+
+Metric
+
+SUM(Survived)
+
+Insight:
+
+Shows female vs male survival.
+
+Step 8: Survival by Passenger Class
+
+Menu:
+
+Insert → Bar Chart
+
+Dimension
+
+Passenger Class Label
+
+Metric
+
+SUM(Survived)
+
+Insight:
+
+Shows which class survived more.
+
+Step 9: Age Distribution
+
+Menu:
+
+Insert → Histogram
+
+Metric
+
+Age
+
+Shows age distribution of passengers.
+
+Step 10: Fare Distribution
+
+Menu:
+
+Insert → Histogram
+
+Metric
+
+Fare
+
+Shows ticket price ranges.
+
+Step 11: Embarkation Analysis
+
+Menu:
+
+Insert → Bar Chart
+
+Dimension
+
+Embarked
+
+Metric
+
+COUNT(PassengerId)
+
+Shows passengers from ports:
+
+S = Southampton
+C = Cherbourg
+Q = Queenstown
+Step 12: Add Filters
+
+Menu:
+
+Insert → Control → Drop Down List
+
+Gender Filter
+
+Dimension
+
+Sex
+Passenger Class Filter
+
+Dimension
+
+Passenger Class Label
+Step 13: Dashboard Layout
+
+Recommended layout:
+
+Top KPIs
+
+Total Passengers | Survivors | Avg Age | Avg Fare
+
+Middle
+
+Survival by Gender | Survival by Class
+
+Bottom
+
+Age Distribution | Fare Distribution
+
+Right side
+
+Embarkation Analysis
+Step 14: Add Dashboard Title
+
+Insert → Text
+
+Titanic Passenger Survival Analysis Dashboard
